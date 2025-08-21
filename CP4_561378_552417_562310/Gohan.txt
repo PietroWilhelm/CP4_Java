@@ -1,0 +1,5 @@
+nome=Gohan
+ki=4000
+tecnicas=300
+velocidade=35
+transformacoes=2

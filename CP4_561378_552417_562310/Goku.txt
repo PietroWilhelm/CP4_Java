@@ -1,0 +1,5 @@
+nome=Goku
+ki=12000
+tecnicas=3400
+velocidade=75
+transformacoes=3

@@ -1,0 +1,5 @@
+nome=Vegeta
+ki=8500
+tecnicas=8200
+velocidade=85
+transformacoes=5
