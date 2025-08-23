@@ -23,7 +23,6 @@ public class DragonBallSuper implements IDBSuper {
     }
 
     // Getters e Setters
-
     public String getNome() {
         return nome;
     }
@@ -71,7 +70,7 @@ public class DragonBallSuper implements IDBSuper {
 
     @Override
     public String gravar(String path) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoArquivo(path)))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoArquivo(path)))) { //BW -> Ele acumula caracters na memório e escreve no arquivo em blocos    , FW -> Basicamente é o que escreve os caracters diratamente num arquivo e ele cria e abre o arquivo de texto para gravar
             bw.write(getNome());                            bw.newLine();
             bw.write(Integer.toString(getKi()));            bw.newLine();
             bw.write(Integer.toString(getTecnicas()));      bw.newLine();
@@ -82,35 +81,36 @@ public class DragonBallSuper implements IDBSuper {
     }
 
     @Override
-    public DragonBallSuper ler(String path) throws IOException {
-        File file = new File(caminhoArquivo(path));
-        if (!file.exists()) return null;  // permite o main decidir a mensagem
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            this.nome = safeStr(br.readLine());
-            this.ki   = converteInt(safeStr(br.readLine()));
-            this.tecnicas = converteInt(safeStr(br.readLine()));
-            this.velocidade = converteInt(safeStr(br.readLine()));
-            this.transformacoes = converteInt(safeStr(br.readLine()));
+    public DragonBallSuper ler(String path) throws IOException { // IOEXCEPTION -> É uma exceção que verifica quando algo daá erro na leitura/escrita
+        File f = new File(caminhoArquivo(path));
+        if (!f.exists()) {
+            throw new FileNotFoundException("Arquivo não encontrado: " + f.getAbsolutePath());  // Acredito que o nome já seja autoexplicativo, contudo retorna um erro caso não encontre o arquivo
         }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+            String linha1 = br.readLine();
+            String linha2 = br.readLine();
+            String linha3 = br.readLine();
+            String linha4 = br.readLine();
+            String linha5 = br.readLine();
+
+            // validação mínima de formato
+            if (linha1 == null || linha2 == null || linha3 == null || linha4 == null || linha5 == null) {
+                throw new IOException("Arquivo malformado: linhas faltando.");
+            }
+
+            this.nome = linha1;
+            this.ki = Integer.parseInt(linha2.trim());
+            this.tecnicas = Integer.parseInt(linha3.trim());
+            this.velocidade = Integer.parseInt(linha4.trim());
+            this.transformacoes = Integer.parseInt(linha5.trim());
+        }
+
         return this;
     }
 
-    private static String safeStr(String s) {
-        return s == null ? "" : s.trim();
-    }
-
-    private static int converteInt(String s) {
-        try {
-            return Integer.parseInt(s.trim());
-
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
     @Override
-    public String toString() {
+    public String toString() { //TS -> Devolve o texto do objeto, serve em JOptionPane
         return "Nome: " + nome +
                 "\nKI: " + ki +
                 "\nTécnicas: " + tecnicas +

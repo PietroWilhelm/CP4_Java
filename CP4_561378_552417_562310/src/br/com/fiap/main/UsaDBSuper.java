@@ -13,22 +13,28 @@ public class UsaDBSuper {
 
         do {
             try {
-                aux  = JOptionPane.showInputDialog("Registro Dos DBSuper \nEscolha:\n1.Cadastrar\n2.Consultar");
+                aux  = JOptionPane.showInputDialog("Registro Dos DBSuper Escolha: \n1.Cadastrar \n2.Consultar \n0.Sair");
                 opcao = Integer.parseInt(aux);
+
+                if (opcao == 0) break; // sair
+
+                if (opcao != 1 && opcao != 2) {
+                    JOptionPane.showMessageDialog(null, "Escolha incorreta (use 1, 2 ou 0).");
+                    continue;
+                }
+
                 path  = JOptionPane.showInputDialog("Digite caminho da pasta/ Exemplo: C://Nome do arquivo");
 
                 DragonBallSuper p = new DragonBallSuper();
 
                 switch (opcao) {
                     case 1: {
-                        // Entrada de dados
                         nome = JOptionPane.showInputDialog("Nome:");
                         int ki = Integer.parseInt(JOptionPane.showInputDialog("Digite o Ki:"));
                         int tecnicas = Integer.parseInt(JOptionPane.showInputDialog("Digite as técnicas:"));
                         int velocidade = Integer.parseInt(JOptionPane.showInputDialog("Digite a velocidade:"));
                         int transf = Integer.parseInt(JOptionPane.showInputDialog("Digite quantas transformações possui:"));
 
-                        // Preenche e grava
                         p.setNome(nome);
                         p.setKi(ki);
                         p.setTecnicas(tecnicas);
@@ -39,7 +45,6 @@ public class UsaDBSuper {
                         break;
                     }
                     case 2: {
-                        // Para ler, basta informar o NOME (pois o arquivo é <nome>.txt)
                         nome = JOptionPane.showInputDialog("Digite o nome do personagem:");
                         p.setNome(nome);
                         p = p.ler(path);
@@ -58,7 +63,7 @@ public class UsaDBSuper {
                 }
 
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Erro de conversão!\n" + e.getMessage(),
+                JOptionPane.showMessageDialog(null, "Digite apenas números: 0, 1 ou 2." + e.getMessage(),
                         "ERRO", JOptionPane.ERROR_MESSAGE);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao acessar arquivo!\n" + e.getMessage(),
